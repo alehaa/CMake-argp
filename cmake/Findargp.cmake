@@ -35,6 +35,7 @@ elseif (NOT ARGP_IN_LIBC)
 	unset(ARGP_IN_LIBC CACHE)
 
 	find_library(ARGP_LIB "argp")
+	mark_as_advanced(ARGP_LIB)
 	if (ARGP_LIB)
 		set(CMAKE_REQUIRED_LIBRARIES "${ARGP_LIB}")
 		check_function_exists("argp_parse" ARGP_EXTERNAL)
@@ -47,4 +48,7 @@ endif ()
 set(CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
 
 
-find_package_handle_standard_args(Argp REQUIRED_VARS ARGP_LIBRARIES)
+find_package_handle_standard_args(argp
+	FOUND_VAR ARGP_FOUND
+	REQUIRED_VARS ARGP_LIBRARIES
+)
