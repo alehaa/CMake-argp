@@ -29,7 +29,7 @@ As for any other ```find_package```module, simply search for argp:
 find_packe(argp)
 ```
 
-This module will set ```ARGP_FOUND```, if argp was found and ```ARGP_LIBRARIES```, containing all required variables to use argp in your project.
+This module will set `ARGP_FOUND`, if argp was found. `ARGP_LIBRARIES` and `ARGP_INCLUDE_PATH` will include the necessary data to build and link your target for using argp.
 
 
 ## Contribute

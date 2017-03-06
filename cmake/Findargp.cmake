@@ -23,32 +23,54 @@ include(FindPackageHandleStandardArgs)
 include(CheckFunctionExists)
 
 
-# Check if argp is included in libc:
-set(CMAKE_REQUIRED_QUIET_SAVE ${CMAKE_REQUIRED_QUIET})
+# Do the following checks for header, library and argp functions quietly. Only
+# print the result at the end of this file.
 set(CMAKE_REQUIRED_QUIET TRUE)
 
-check_function_exists("argp_parse" ARGP_IN_LIBC)
-if (ARGP_IN_LIBC)
-	set(ARGP_LIBRARIES "c" CACHE STRING "ARGP libraries.")
 
-elseif (NOT ARGP_IN_LIBC)
-	unset(ARGP_IN_LIBC CACHE)
+# First search the argp header file. If it is not found, any further steps will
+# fail.
+find_path(ARGP_INCLUDE_PATH "argp.h")
+if (ARGP_INCLUDE_PATH)
+	set(CMAKE_REQUIRED_INCLUDES "${ARGP_INCLUDE_PATH}")
 
-	find_library(ARGP_LIB "argp")
-	mark_as_advanced(ARGP_LIB)
-	if (ARGP_LIB)
-		set(CMAKE_REQUIRED_LIBRARIES "${ARGP_LIB}")
-		check_function_exists("argp_parse" ARGP_EXTERNAL)
-		if (ARGP_EXTERNAL)
-			set(ARGP_LIBRARIES "${ARGP_LIB}" CACHE STRING "ARGP libraries.")
+	# Find the required argp library. argp may be shipped together with libc (as
+	# glibc does), or as independent library (e.g. for Windows, mac OS, ...). If
+	# the library was found before, the cached result will be used.
+	if (NOT ARGP_LIBRARIES)
+		# First check if argp is shipped together with libc. The required
+		# argp_parse function should be available after linking to libc,
+		# otherwise libc doesn't ship it.
+		check_function_exists("argp_parse" ARGP_IN_LIBC)
+		if (ARGP_IN_LIBC)
+			set(ARGP_LIBRARIES "c" CACHE STRING
+			    "Libraries required for using argp.")
+
+		# argp is not shipped with libc. Try to find the argp library and check
+		# if it has the required argp_parse function.
+		else ()
+			find_library(ARGP_LIBRARIES "argp")
+			if (ARGP_LIBRARIES)
+				set(CMAKE_REQUIRED_LIBRARIES "${ARGP_LIBRARIES}")
+				check_function_exists("argp_parse" ARGP_EXTERNAL)
+				if (NOT ARGP_EXTERNAL)
+					message(FATAL_ERROR "Your system ships an argp library in "
+					        "${ARGP_LIBRARIES}, but it does not have a symbol "
+					        "named argp_parse.")
+				endif ()
+			endif ()
 		endif ()
 	endif ()
 endif ()
 
-set(CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
+
+# Restore the quiet settings. By default the last check should be printed if not
+# disabled in the find_package call.
+set(CMAKE_REQUIRED_QUIET ${argp_FIND_QUIETLY})
 
 
+# Check for all required variables.
 find_package_handle_standard_args(argp
 	FOUND_VAR ARGP_FOUND
-	REQUIRED_VARS ARGP_LIBRARIES
-)
+	REQUIRED_VARS ARGP_LIBRARIES ARGP_INCLUDE_PATH)
+mark_as_advanced(ARGP_LIBRARIES ARGP_INCLUDE_PATH)
