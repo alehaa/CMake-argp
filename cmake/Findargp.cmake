@@ -71,6 +71,6 @@ set(CMAKE_REQUIRED_QUIET ${argp_FIND_QUIETLY})
 
 # Check for all required variables.
 find_package_handle_standard_args(argp
-	FOUND_VAR ARGP_FOUND
-	REQUIRED_VARS ARGP_LIBRARIES ARGP_INCLUDE_PATH)
+	DEFAULT_MSG
+	ARGP_LIBRARIES ARGP_INCLUDE_PATH)
 mark_as_advanced(ARGP_LIBRARIES ARGP_INCLUDE_PATH)

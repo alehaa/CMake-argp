@@ -1,7 +1,8 @@
 # CMake-argp
 
 [![](https://img.shields.io/github/issues-raw/alehaa/CMake-argp.svg?style=flat-square)](https://github.com/alehaa/CMake-argp/issues)
-[![LGPL license](http://img.shields.io/badge/license-LGPL-blue.svg?style=flat-square)](http://www.gnu.org/licenses/)
+[![](http://img.shields.io/badge/license-LGPL-blue.svg?style=flat-square)](http://www.gnu.org/licenses/)
+![](http://img.shields.io/badge/CMake_required-2.6-lightgrey.svg?style=flat-square)
 
 CMake module to search for argp library.
 
