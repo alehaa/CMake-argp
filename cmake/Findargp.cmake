@@ -16,7 +16,7 @@
 #
 #
 # Copyright (c)
-#   2016 Alexander Haase <ahaase@alexhaase.de>
+#   2016-2017 Alexander Haase <ahaase@alexhaase.de>
 #
 
 include(FindPackageHandleStandardArgs)

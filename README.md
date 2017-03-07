@@ -50,4 +50,4 @@ CMake-argp is free software: you can redistribute it and/or modify it under the 
 
 This program is distributed in the hope that it will be useful,but **WITHOUT ANY WARRANTY**; without even the implied warranty of **MERCHANTABILITY** or **FITNESS FOR A PARTICULAR PURPOSE**. See the GNU General Public License for more details. A Copy of the GPL can be found in the [LICENSE](LICENSE) file.
 
-Copyright (c) 2016 Alexander Haase
+Copyright (c) 2016-2017 Alexander Haase
